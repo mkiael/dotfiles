@@ -1,0 +1,91 @@
+[extensions]
+remotebranches = ~/.hgextensions/hg_remotebranches.py
+# smartlog = ~/.hgextensions/hg_smartlog.py
+
+#automv =
+color =
+#evolve =
+hgext.extdiff =
+histedit =
+largefiles =
+pager =
+purge =
+rebase =
+shelve =
+strip =
+mq =
+
+[defaults]
+addremove = --similarity 80
+
+[automv]
+similarity = 80
+
+[hooks]
+pre-push.confirm = printf 'Are you sure you want to push to remote? (y/n): '; read R; [ "$R" = "y" ]
+
+[pager]
+quiet = True
+attend = outgoing,incoming,diff,status,log,qdiff,blame,annotate,pdiff,glog,show,sh,backups,ll,sl,wip,d
+
+[phases]
+new-commit = secret
+
+[revsetalias]
+wip = (parents(not public()) or not public() or . or head()) and (not obsolete() or unstable()^) and not closed()
+
+[templates]
+wip = '{label("log.branch", ifeq(branch, "default", "", branch))} {label("changeset.{phase}", rev)} {label("grep.user", author|user)}{label("log.tag", if(tags," {tags}"))} {bookmarks % "{ifeq(bookmark, currentbookmark, label('log.activebookmark', bookmark), label('log.bookmark', bookmark))} "} {label(ifcontains(rev, revset('parents()'), 'desc.here'),desc|firstline)}'
+
+[color]
+mode=auto
+
+#colours for each label
+log.branch=cyan
+log.summary=yellow
+log.description=yellow
+log.bookmark=green
+log.tag=blue
+log.activebookmark = green bold underline
+
+changeset.public=blue bold
+changeset.secret=red bold
+changeset.draft=yellow bold
+
+desc.here=bold blue_background
+
+[alias]
+ar = addremove
+d = diff --git
+blame = annotate -udn
+bm = bookmark
+ll = log --graph --template=wip
+rb = rebase
+show = log -pv --git
+sh = show
+# sl = smartlog --template=wip
+wip = log --graph --rev=wip --template=wip
+
+[extdiff]
+cmd.kdiff3 =
+
+[merge-tools]
+kdiff3.args = $base $local $other -o $output
+kdiff3.dirdiff=True
+kdiff3.priority=1
+
+# default colors for tortoisegit, it will look strange otherwise due to the color extension
+[thg-color]
+log.branch = black #aaffaa_background
+log.patch = black #aaddff_background
+log.unapplied_patch = black #dddddd_backgroun
+log.tag = black #ffffaa_background
+log.bookmark = blue #ffffaa_background
+log.curbookmark = black #ffdd77_background
+log.modified = black #ffddaa_background
+log.added = black #aaffaa_background
+log.removed = black #ffcccc_background
+status.deleted = red bold
+ui.error = red bold #ffcccc_background
+ui.warning = black bold #ffffaa_background
+control = black bold #dddddd_background

@@ -1,0 +1,219 @@
+THIS_FILE=${(%):-%N}
+THIS_DIR=$THIS_FILE:A:h
+REPO_ROOT=$THIS_DIR:h
+
+#echo $THIS_DIR
+
+# basic
+export VISUAL=nvim
+export EDITOR="$VISUAL"
+
+# ---------------------------------------------------------------------
+# oh my zsh
+source ~/.zplug/init.zsh
+
+zplug "zplug/zplug"
+
+zplug "lib/completion", from:oh-my-zsh
+zplug "lib/theme-and-appearance", from:oh-my-zsh
+zplug "lib/termsupport.zsh", from:oh-my-zsh
+
+zplug "plugins/vi-mode", from:oh-my-zsh, defer:2
+zplug "plugins/fasd", from:oh-my-zsh
+zplug "plugins/extract", from:oh-my-zsh
+zplug "changyuheng/zsh-interactive-cd"
+
+zplug "seebi/dircolors-solarized"
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+
+zplug "zsh-users/zsh-history-substring-search", defer:3, on:"zsh-users/zsh-syntax-highlighting", defer: 3
+
+# Commands
+zplug "BurntSushi/ripgrep", as:command, from:gh-r, rename-to:"rg", use:"*unknown-linux-musl*"
+zplug "aureliojargas/sedsed", as:command, use:"sedsed.py", rename-to:"sedsed"
+
+# Themes
+
+# Local plugins
+zplug "${THIS_DIR}", from:local, use:"prompt.zsh"
+zplug "${THIS_DIR}", from:local, use:"history.zsh"
+zplug "${THIS_DIR}", from:local, use:"mercurial.zsh"
+zplug "${THIS_DIR}", from:local, use:"fzfgit.zsh", defer:3 # needs to be loaded after vi-mode
+zplug "${THIS_DIR}", from:local, use:"fzfhg.zsh", defer:3 # needs to be loaded after vi-mode
+
+[ -f ~/.plugins.local.zsh ] && source ~/.plugins.local.zsh
+
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+# dircolors
+eval `dircolors $ZPLUG_HOME/repos/seebi/dircolors-solarized/dircolors.256dark`
+
+# Then, source plugins and add commands to $PATH
+zplug load
+
+# Enable bash style completions
+autoload -U +X bashcompinit && bashcompinit -u
+
+# Setup fzf
+# ---------
+if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
+  export PATH="$HOME/.fzf/bin:$PATH"
+fi
+
+# Auto-completion
+# ---------------
+[[ $- == *i* ]] && source "$HOME/.fzf/shell/completion.zsh" 2> /dev/null
+
+# Key bindings
+# ------------
+source "$HOME/.fzf/shell/key-bindings.zsh"
+
+# ---------------------------------------------------------------------
+# Alias
+
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'
+alias la='ls -la'
+alias ll='ls -l'
+alias t='tee /dev/tty'
+
+alias -g L="| less" # Write L after a command to page through the output.
+alias -g TL='| tail -20'
+alias -g G='|& gtpp.py'
+
+# fix messed up prompt
+alias fix='echo -e "\033c"'
+alias tmux='tmux -2'
+
+# Exports
+export EDITOR=nvim
+export DEFAULT_CHEAT_DIR="$REPO_ROOT/.cheat"
+
+# git has default FRSX
+# -F or --quit-if-one-screen
+# -R or --RAW-CONTROL-CHARS
+# -S or --chop-long-lines
+# -X or --no-init Disables sending the termcap initialization and deinitialization strings to the terminal
+# -K or --quit-on-intr Quit on ctrl+c
+export PAGER=less
+export LESS="-FRSXK --ignore-case --status-column --LONG-PROMPT --window=-4"
+
+# ---------------------------------------------------------------------
+# Keys
+bindkey -M viins 'jj' vi-cmd-mode # jj to exit insert mode
+bindkey -M viins 'jk' vi-cmd-mode # jk to exit insert mode
+bindkey -M viins '^u' backward-kill-line # vi-kill-line kills from where insert mode was last entered, use emacs mode instead
+bindkey -M viins '^p' history-substring-search-up
+bindkey -M viins '^n' history-substring-search-down
+bindkey -M viins '^k' kill-line
+
+bindkey -M vicmd 'H' beginning-of-line
+bindkey -M vicmd 'L' end-of-line
+
+# press ctrl-v key or read to get sequence, print current codes with print -r -- ${(V)terminfo[kcud1]}
+zmodload zsh/terminfo
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+bindkey "$terminfo[cuu1]" history-substring-search-up
+bindkey "$terminfo[cud1]" history-substring-search-down
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+bindkey '^[[Z' reverse-menu-complete # make shift tab reverse in completions
+
+# remove current comand and show it after next command
+bindkey '^B' push-line-or-edit
+
+# Alt-h run current command in help and return to command
+bindkey '^[h' run-help
+
+# http://chneukirchen.org/blog/archive/2013/03/10-fresh-zsh-tricks-you-may-not-know.html
+# bind alt-m to copy earlier word
+autoload -Uz copy-earlier-word
+zle -N copy-earlier-word
+bindkey "^[m" copy-earlier-word
+
+# make alt+. work
+bindkey '^[.' insert-last-word
+bindkey "^[0" digit-argument
+bindkey "^[1" digit-argument
+bindkey "^[2" digit-argument
+bindkey "^[3" digit-argument
+bindkey "^[4" digit-argument
+bindkey "^[5" digit-argument
+bindkey "^[6" digit-argument
+bindkey "^[7" digit-argument
+bindkey "^[8" digit-argument
+bindkey "^[9" digit-argument
+
+# make ctrl-w work as in bash
+export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+
+# --------------------------------------------------------------------
+# functions
+ag-rename() {
+   ag -g $1 | sed "p;s/$1/$2/" | xargs -n2 mv
+}
+
+ag-replace() {
+   ag $1 --files-with-matches | xargs sed -i -b "s/$1/$2/g"
+}
+
+line-plot() {
+   feedgnuplot --lines --points --terminal "dumb size `tput cols`, `tput lines`"
+}
+
+history-top20-commands() {
+   history | cut -c8- | cut -d' ' -f1 | sort | uniq -c | sort -nr | head -n20
+}
+
+history-top20() {
+   history | cut -c8- | sort | uniq -c | sort -nr | head -n20
+}
+
+wttr()
+{
+    curl -H "Accept-Language: ${LANG%_*}" wttr.in/"${1:-Paris}"
+}
+
+# ---------------------------------------------------------------------
+# fzf
+export FZF_DEFAULT_OPTS='
+--multi
+--bind=ctrl-f:preview-page-down
+--bind=ctrl-b:preview-page-up
+--bind=ctrl-z:toggle-all
+--bind=ctrl-a:select-all,ctrl-d:deselect-all
+'
+export FZF_DEFAULT_COMMAND='ag --hidden --skip-vcs-ignores --ignore .git --ignore .hg -l -g ""'
+
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND -u"
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden --bind '?:toggle-preview'"
+
+export FZF_CTRL_T_OPTS="--preview-window right:40% --preview 'head -$LINES {}'"
+# preview directory if tree command is available
+command -v tree > /dev/null && export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+
+# Use rg (https://github.com/BurntSushi/ripgrep) instead of the default find
+# command for listing path candidates.
+# - The first argument to the function is the base path to start traversal
+# - See the source code (completion.{bash,zsh}) for the details.
+# - rg only lists files, so we use with-dir script to augment the output
+_fzf_compgen_path() {
+  rg --files "$1" | with-dir "$1"
+}
+
+# Use rg to generate the list for directory completion
+_fzf_compgen_dir() {
+  rg --files "$1" | only-dir "$1"
+}
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
