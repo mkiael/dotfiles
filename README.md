@@ -28,7 +28,7 @@ $ sudo apt-get install tmux
 
 Link config:
 
-````sh
+```sh
 $ ln -s .tmux.conf ~/dotfiles/tmux/tmux.conf
 ```
 
