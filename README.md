@@ -34,7 +34,7 @@ $ ln -s .tmux.conf ~/dotfiles/tmux/tmux.conf
 
 Clone TPM:
 
-````sh
+```sh
 $ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
@@ -55,6 +55,6 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 
 Create init.vim:
 
-````sh
+```sh
 $ mkdir -p .config/nvim; echo "source $HOME/dotfiles/nvim/init.vim" > .config/nvim/init.vim;
 ```
