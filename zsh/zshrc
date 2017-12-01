@@ -23,7 +23,6 @@ zplug "plugins/fasd", from:oh-my-zsh
 zplug "plugins/extract", from:oh-my-zsh
 zplug "changyuheng/zsh-interactive-cd"
 
-zplug "seebi/dircolors-solarized"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
 zplug "zsh-users/zsh-history-substring-search", defer:3, on:"zsh-users/zsh-syntax-highlighting", defer: 3
@@ -52,9 +51,6 @@ if ! zplug check --verbose; then
         echo; zplug install
     fi
 fi
-
-# dircolors
-eval `dircolors $ZPLUG_HOME/repos/seebi/dircolors-solarized/dircolors.256dark`
 
 # Then, source plugins and add commands to $PATH
 zplug load
