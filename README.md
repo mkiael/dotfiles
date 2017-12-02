@@ -3,6 +3,18 @@
 ```sh
 $ git clone https://github.com/ml85/dotfiles
 ```
+### [fzf](https://github.com/junegunn/fzf)
+
+```sh
+$ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+$ ~/.fzf/install
+```
+
+### [ag](https://github.com/ggreer/the_silver_searcher)
+
+```sh
+$ sudo apt-get install silversearcher-ag
+```
 
 ### zsh
 
@@ -38,18 +50,20 @@ Clone TPM:
 $ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-### nvim
+### [nvim](https://github.com/neovim/neovim)
 
 Install on Ubuntu:
 
 ```sh
-$ ???
+$ sudo add-apt-repository ppa:neovim-ppa/stable
+$ sudo apt-get update
+$ sudo apt-get install neovim
 ```
 
 Install vim-plug:
 
 ```sh
-curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+$ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 
