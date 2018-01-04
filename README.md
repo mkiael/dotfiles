@@ -58,3 +58,19 @@ Create init.vim:
 ```sh
 $ mkdir -p .config/nvim; echo "source $HOME/dotfiles/nvim/init.vim" > .config/nvim/init.vim;
 ```
+
+### Git
+
+Link config:
+
+```sh
+$ ln -s .gitconfig ~/dotfiles/git/gitconfig
+```
+
+### EditorConfig
+
+Install editorconfig MacOs:
+
+```sh
+$ brew install editorconfig
+```

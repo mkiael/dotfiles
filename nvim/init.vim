@@ -13,6 +13,12 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'wesQ3/vim-windowswap'
+Plug 'w0rp/ale'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'pangloss/vim-javascript'
 
 " Plug 'Chiel92/vim-autoformat'
 " Plug 'derekwyatt/vim-fswitch'
@@ -95,8 +101,7 @@ set splitbelow
 " Searching
 set showmatch     " set show matching parenthesis
 set ignorecase    " ignore case when searching
-set smartcase     " ignore case if search pattern is all lowercase,
-                    "    case-sensitive otherwise
+set smartcase     " ignore case if search pattern is all lowercase, case-sensitive otherwise
 set hlsearch      " highlight search terms
 set incsearch     " show search matches as you type
 
@@ -246,3 +251,13 @@ nmap <Leader>n :NERDTreeToggle<CR>
 nmap <silent> <F2> :NERDTreeFind<CR>
 let NERDTreeHighlightCursorline=1
 let NERDTreeIgnore = ['tmp', '.yardoc', 'pkg']
+
+"******************************************************************************
+" EditorConfig
+"******************************************************************************
+let g:EditorConfig_core_mode = 'external_command'
+
+"******************************************************************************
+" Ale
+"******************************************************************************
+let g:ale_linters = { 'javascript': ['standard'] }
