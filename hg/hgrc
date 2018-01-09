@@ -67,12 +67,17 @@ sh = show
 wip = log --graph --rev=wip --template=wip
 
 [extdiff]
-cmd.kdiff3 =
+cmd.p4 =
 
 [merge-tools]
-kdiff3.args = $base $local $other -o $output
-kdiff3.dirdiff=True
-kdiff3.priority=1
+p4.priority = 100
+p4.premerge = True
+p4.executable = p4merge
+p4.gui = True
+p4.args = $base $local $other $output
+p4.diffargs = $parent $child
+p4.diff3args = $child $parent1 $parent2
+p4.gui = True
 
 # default colors for tortoisegit, it will look strange otherwise due to the color extension
 [thg-color]
