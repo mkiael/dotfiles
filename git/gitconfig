@@ -1,0 +1,34 @@
+[user]
+   name = Mikael Larsson
+   email = c.mikael.larsson@gmail.com 
+
+[alias]
+   s = status
+   ss = status --short
+   ll = log --graph --pretty=format:\"%Cred%h%Creset-%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset\"
+
+[merge]
+   tool = p4merge
+
+[mergetool]
+   keepBackup = false
+   prompt = false
+
+[mergetool "p4merge"]
+   cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge "\"$PWD/$BASE\"" "\"$PWD/$LOCAL\"" "\"$PWD/$REMOTE\"" "\"$PWD/$MERGED\""
+   keepTemporaries = false
+   trustExitCode = false
+
+[diff]
+    tool = p4merge
+
+[difftool]
+   prompt = false
+
+[difftool "p4merge"]
+   cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge "\"$LOCAL\"" "\"$REMOTE\"" 
+
+[color "status"]
+   added = blue 
+   changed = yellow 
+   untracked = white ul
