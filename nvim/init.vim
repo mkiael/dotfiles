@@ -1,5 +1,11 @@
 set shellslash
 
+" Store the path to this file
+let vimrepodir = fnamemodify(resolve(expand('<sfile>:p')), ':h')"
+let dotfilesdir = fnamemodify(vimrepodir, ':h')
+
+" Include this directory for runtimepath in order to load plugins later
+let &runtimepath.=','.escape(vimrepodir, '\,')
 
 "******************************************************************************
 " Load plugins
@@ -20,9 +26,12 @@ Plug 'wesQ3/vim-windowswap'
 Plug 'w0rp/ale'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'pangloss/vim-javascript'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer', 'frozen': 1 }
+Plug 'lyuts/vim-rtags'
+Plug 'derekwyatt/vim-fswitch'
+Plug 'SirVer/ultisnips'
 
 " Plug 'Chiel92/vim-autoformat'
-" Plug 'derekwyatt/vim-fswitch'
 " Plug 'johnor/vim-sort-motion'
 " Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign', 'LiveEasyAlign'] }
 " Plug 'junegunn/vim-slash'
@@ -262,3 +271,41 @@ let g:EditorConfig_core_mode = 'external_command'
 " Ale
 "******************************************************************************
 let g:ale_linters = { 'javascript': ['standard'] }
+
+"******************************************************************************
+" YouCompleteMe
+"******************************************************************************
+let g:ycm_global_ycm_extra_conf = vimrepodir.'/ycm_extra_conf.py'
+
+let g:ycm_python_binary_path = 'python3'
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_extra_conf_globlist = ['~/dev/*']
+
+nnoremap <Leader>fd :YcmDiags<CR>
+nnoremap <Leader>fc :YcmCompleter GoToDeclaration<CR>
+nnoremap <Leader>fg :YcmCompleter GoToDefinition<CR>
+nnoremap <Leader>f  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <Leader>h  :YcmCompleter GoToInclude<CR>
+nnoremap <Leader>fx :YcmCompleter FixIt <CR>
+nnoremap <Leader>ft :YcmCompleter GetType <CR>
+nnoremap <Leader>fh :YcmCompleter GetDoc <CR>
+
+"******************************************************************************
+" FSwitch
+"******************************************************************************
+au! BufEnter *.cpp let b:fswitchdst = 'h' | let b:fswitchlocs = 'reg:/src/include/'
+au! BufEnter *.h let b:fswitchdst = 'cpp,hpp' | let b:fswitchlocs = 'reg:/include/src/,./,./detail'
+
+nmap <silent> <Leader>of :FSHere<CR>
+
+"******************************************************************************
+" UltiSnip
+"******************************************************************************
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+let g:UltiSnipsSnippetDirectories=[vimrepodir.'/ultisnips']

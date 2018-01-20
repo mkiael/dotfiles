@@ -78,7 +78,7 @@ $ mkdir -p .config/nvim; echo "source $HOME/dotfiles/nvim/init.vim" > .config/nv
 Link config:
 
 ```sh
-$ ln -s .gitconfig ~/dotfiles/git/gitconfig
+$ ln -s ~/dotfiles/git/gitconfig .gitconfig
 ```
 
 ### EditorConfig
