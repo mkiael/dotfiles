@@ -51,14 +51,15 @@ Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 " Plug 'wellle/targets.vim'
 
 " Color scheme
-Plug 'morhetz/gruvbox'
+Plug 'ml85/papercolor-theme'
 
 call plug#end()
 
 set background=dark
 
 " Enabled Solarized color scheme
-colorscheme gruvbox
+" colorscheme gruvbox
+colorscheme PaperColor
 
 set nowrap                     " don't wrap lines
 set linebreak                  " break on words
@@ -130,6 +131,9 @@ nnoremap <silent> <S-TAB> :bp<CR>
 
 " Switch between the most recently used buffers
 nnoremap ,, <c-^>
+
+" Disable highlight
+noremap <Leader>s :wall<CR>
 
 " Disable highlight
 noremap <silent> <Leader>hs :silent :nohlsearch<CR>
