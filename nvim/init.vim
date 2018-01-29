@@ -23,11 +23,11 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'wesQ3/vim-windowswap'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'pangloss/vim-javascript'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer', 'frozen': 1 }
-Plug 'lyuts/vim-rtags'
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer', 'frozen': 1 }
+" Plug 'lyuts/vim-rtags'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'SirVer/ultisnips'
 
@@ -52,14 +52,20 @@ Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 
 " Color scheme
 Plug 'ml85/papercolor-theme'
+Plug 'tomasr/molokai'
+Plug 'morhetz/gruvbox'
+
+" My plugins
+Plug 'ml85/neortags'
 
 call plug#end()
 
 set background=dark
 
 " Enabled Solarized color scheme
-" colorscheme gruvbox
-colorscheme PaperColor
+"colorscheme PaperColor
+"colorscheme molokai
+colorscheme gruvbox
 
 set nowrap                     " don't wrap lines
 set linebreak                  " break on words
@@ -215,7 +221,7 @@ command! -nargs=+ -complete=file AgRaw call fzf#vim#ag_raw(<q-args>)
 
 " Calls ag to get the files in the current project root
 " Project root is the file's directory or the top level git directory
-command! AgFiles call fzf#run(fzf#vim#wrap(
+command! AgFiles call fzf#run(fzf#wrap(
          \ {'source': 'ag --hidden --ignore .git --ignore .hg -g ""',
          \         'dir': ProjectRoot(),
          \         'options': '--prompt "AgFiles> "'}
@@ -274,25 +280,26 @@ let g:EditorConfig_core_mode = 'external_command'
 "******************************************************************************
 " Ale
 "******************************************************************************
-let g:ale_linters = { 'javascript': ['standard'] }
+"let g:ale_linters = { 'javascript': ['standard'], 'c': [], 'c++': [] }
+"let g:airline#extensions#ale#enabled = 1
 
 "******************************************************************************
 " YouCompleteMe
 "******************************************************************************
-let g:ycm_global_ycm_extra_conf = vimrepodir.'/ycm_extra_conf.py'
+" let g:ycm_global_ycm_extra_conf = vimrepodir.'/ycm_extra_conf.py'
 
-let g:ycm_python_binary_path = 'python3'
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_extra_conf_globlist = ['~/dev/*']
+" let g:ycm_python_binary_path = 'python3'
+" let g:ycm_autoclose_preview_window_after_insertion = 1
+" let g:ycm_extra_conf_globlist = ['~/dev/*']
 
-nnoremap <Leader>fd :YcmDiags<CR>
-nnoremap <Leader>fc :YcmCompleter GoToDeclaration<CR>
-nnoremap <Leader>fg :YcmCompleter GoToDefinition<CR>
-nnoremap <Leader>f  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap <Leader>h  :YcmCompleter GoToInclude<CR>
-nnoremap <Leader>fx :YcmCompleter FixIt <CR>
-nnoremap <Leader>ft :YcmCompleter GetType <CR>
-nnoremap <Leader>fh :YcmCompleter GetDoc <CR>
+" nnoremap <Leader>fd :YcmDiags<CR>
+" nnoremap <Leader>fc :YcmCompleter GoToDeclaration<CR>
+" nnoremap <Leader>fg :YcmCompleter GoToDefinition<CR>
+" nnoremap <Leader>f  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" nnoremap <Leader>h  :YcmCompleter GoToInclude<CR>
+" nnoremap <Leader>fx :YcmCompleter FixIt <CR>
+" nnoremap <Leader>ft :YcmCompleter GetType <CR>
+" nnoremap <Leader>fh :YcmCompleter GetDoc <CR>
 
 "******************************************************************************
 " FSwitch
