@@ -30,6 +30,7 @@ Plug 'pangloss/vim-javascript'
 " Plug 'lyuts/vim-rtags'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'SirVer/ultisnips'
+Plug 'rhysd/vim-clang-format'
 
 " Plug 'Chiel92/vim-autoformat'
 " Plug 'johnor/vim-sort-motion'
@@ -327,3 +328,9 @@ let g:UltiSnipsSnippetDirectories=[vimrepodir.'/ultisnips']
 "******************************************************************************
 nnoremap <Leader>rf :NeortagsFindReferences<CR>
 nnoremap <Leader>rj :NeortagsJumpTo<CR>
+
+"******************************************************************************
+" vim-clang-format
+"******************************************************************************
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
