@@ -83,6 +83,7 @@ set diffopt+=vertical          " use veritcal diffs, usefull for fugitive
 set formatoptions-=cro         " turn off continuation of comments to next line
 set scrolloff=5                " always show x lines below/above the cursor
 set showbreak=↪                " show symbol before wrapped lines when wrap is on
+set colorcolumn=80             " Show vertical line at 80
 
 " Vim can highlight whitespaces for you in a convenient way:
 set list
@@ -320,3 +321,9 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:UltiSnipsEditSplit="vertical"
 
 let g:UltiSnipsSnippetDirectories=[vimrepodir.'/ultisnips']
+
+"******************************************************************************
+" neortags
+"******************************************************************************
+nnoremap <Leader>rf :NeortagsFindReferences<CR>
+nnoremap <Leader>rj :NeortagsJumpTo<CR>
