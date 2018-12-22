@@ -32,3 +32,5 @@
    added = blue 
    changed = yellow 
    untracked = white ul
+[push]
+	default = matching
