@@ -29,7 +29,7 @@ Plug 'pangloss/vim-javascript'
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer', 'frozen': 1 }
 " Plug 'lyuts/vim-rtags'
 Plug 'derekwyatt/vim-fswitch'
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
 
 " Plug 'Chiel92/vim-autoformat'
 " Plug 'johnor/vim-sort-motion'
@@ -49,6 +49,8 @@ Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 " Plug 'vim-scripts/ReplaceWithRegister'
 " Plug 'vim-scripts/ReplaceWithSameIndentRegister'
 " Plug 'wellle/targets.vim'
+Plug 'kana/vim-operator-user'
+Plug 'rhysd/vim-clang-format'
 
 " Color scheme
 Plug 'ml85/papercolor-theme'
@@ -102,6 +104,7 @@ set wildignore=*.swp,*.bak,*.pyc,*.class
 set title                " change the terminal's title
 set visualbell           " don't beep
 set noerrorbells         " don't beep
+set noswapfile
 
 " Show command in bottom right portion of the screen
 set showcmd
@@ -276,6 +279,13 @@ let NERDTreeIgnore = ['tmp', '.yardoc', 'pkg']
 " EditorConfig
 "******************************************************************************
 let g:EditorConfig_core_mode = 'external_command'
+"
+"******************************************************************************
+" neortags
+"******************************************************************************
+noremap <Leader>rf :NeortagsFindReferences<CR>
+noremap <Leader>rv :NeortagsFindVirtuals<CR>
+noremap <Leader>rj :NeortagsJumpTo<CR>
 
 "******************************************************************************
 " Ale
@@ -320,3 +330,9 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:UltiSnipsEditSplit="vertical"
 
 let g:UltiSnipsSnippetDirectories=[vimrepodir.'/ultisnips']
+
+"******************************************************************************
+" Clang format
+"******************************************************************************
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
