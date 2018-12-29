@@ -23,43 +23,20 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'wesQ3/vim-windowswap'
-" Plug 'w0rp/ale'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'pangloss/vim-javascript'
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer', 'frozen': 1 }
-" Plug 'lyuts/vim-rtags'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'SirVer/ultisnips'
-Plug 'rhysd/vim-clang-format'
-
-" Plug 'Chiel92/vim-autoformat'
-" Plug 'johnor/vim-sort-motion'
-" Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign', 'LiveEasyAlign'] }
-" Plug 'junegunn/vim-slash'
-" Plug 'justinmk/vim-gtfo'
-" Plug 'justinmk/vim-sneak'
-" Plug 'lambdalisue/vim-gita', { 'on': ['Gita'] }
-" Plug 'majutsushi/tagbar'
 Plug 'matze/vim-move'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
-" Plug 'michaeljsmith/vim-indent-object'
-" Plug 'tpope/vim-commentary'
-" Plug 'tpope/vim-repeat'
-" Plug 'tpope/vim-surround'
-" Plug 'tpope/vim-unimpaired'
-" Plug 'vim-scripts/ReplaceWithRegister'
-" Plug 'vim-scripts/ReplaceWithSameIndentRegister'
-" Plug 'wellle/targets.vim'
 Plug 'kana/vim-operator-user'
 Plug 'rhysd/vim-clang-format'
+Plug 'ml85/neortags'
 
 " Color scheme
 Plug 'ml85/papercolor-theme'
 Plug 'tomasr/molokai'
 Plug 'morhetz/gruvbox'
-
-" My plugins
-Plug 'ml85/neortags'
 
 call plug#end()
 
@@ -285,33 +262,9 @@ let g:EditorConfig_core_mode = 'external_command'
 "******************************************************************************
 " neortags
 "******************************************************************************
-noremap <Leader>rf :NeortagsFindReferences<CR>
-noremap <Leader>rv :NeortagsFindVirtuals<CR>
-noremap <Leader>rj :NeortagsJumpTo<CR>
-
-"******************************************************************************
-" Ale
-"******************************************************************************
-"let g:ale_linters = { 'javascript': ['standard'], 'c': [], 'c++': [] }
-"let g:airline#extensions#ale#enabled = 1
-
-"******************************************************************************
-" YouCompleteMe
-"******************************************************************************
-" let g:ycm_global_ycm_extra_conf = vimrepodir.'/ycm_extra_conf.py'
-
-" let g:ycm_python_binary_path = 'python3'
-" let g:ycm_autoclose_preview_window_after_insertion = 1
-" let g:ycm_extra_conf_globlist = ['~/dev/*']
-
-" nnoremap <Leader>fd :YcmDiags<CR>
-" nnoremap <Leader>fc :YcmCompleter GoToDeclaration<CR>
-" nnoremap <Leader>fg :YcmCompleter GoToDefinition<CR>
-" nnoremap <Leader>f  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-" nnoremap <Leader>h  :YcmCompleter GoToInclude<CR>
-" nnoremap <Leader>fx :YcmCompleter FixIt <CR>
-" nnoremap <Leader>ft :YcmCompleter GetType <CR>
-" nnoremap <Leader>fh :YcmCompleter GetDoc <CR>
+nnoremap <Leader>rf :NeortagsFindReferences<CR>
+nnoremap <Leader>rv :NeortagsFindVirtuals<CR>
+nnoremap <Leader>rj :NeortagsJumpTo<CR>
 
 "******************************************************************************
 " FSwitch
@@ -332,12 +285,6 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:UltiSnipsEditSplit="vertical"
 
 let g:UltiSnipsSnippetDirectories=[vimrepodir.'/ultisnips']
-
-"******************************************************************************
-" neortags
-"******************************************************************************
-nnoremap <Leader>rf :NeortagsFindReferences<CR>
-nnoremap <Leader>rj :NeortagsJumpTo<CR>
 
 "******************************************************************************
 " vim-clang-format
