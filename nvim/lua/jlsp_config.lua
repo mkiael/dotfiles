@@ -2,8 +2,10 @@ local on_attach = function()
   require'completion'.on_attach()
 end
 
+local lsp = require'lspconfig'
+
 if vim.fn.executable('clangd') > 0 then
-  require'lspconfig'.clangd.setup{
+  lsp.clangd.setup{
     -- on_attach=on_attach, -- this line has to do with completing without pressing ctrl-space
     cmd = {
       "clangd",
@@ -14,6 +16,22 @@ if vim.fn.executable('clangd') > 0 then
     },
   }
 end
+
+if vim.fn.executable('rls') > 0 then
+   lsp.rls.setup{
+      settings = {
+         rust = {
+            unstable_features = true,
+            build_on_save = false,
+            all_features = true,
+         }
+      }
+   }
+   lsp.rust_analyzer.setup{
+      on_attach=on_attach
+   }
+end
+
 
 
 -- Use signs with 0 width

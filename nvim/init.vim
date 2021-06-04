@@ -9,7 +9,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'bling/vim-airline'
 Plug 'easymotion/vim-easymotion'
 Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeFind'] }
-Plug 'scrooloose/nerdcommenter'
+Plug 'preservim/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-rooter'
@@ -26,6 +26,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'tyru/open-browser.vim'
 Plug 'weirongxu/plantuml-previewer.vim'
 Plug 'aklt/plantuml-syntax'
+Plug 'iamcco/markdown-preview.nvim'
 Plug 'morhetz/gruvbox'
 
 call plug#end()
@@ -287,7 +288,13 @@ let NERDTreeHighlightCursorline=1
 let NERDTreeIgnore = ['tmp', '.yardoc', 'pkg']
 
 "******************************************************************************
-" Nerdtree
+" NERDCommenter
+"******************************************************************************
+let g:NERDCreateDefaultMappings = 1
+let g:NERDSpaceDelims = 1
+
+"******************************************************************************
+" Neogoto
 "******************************************************************************
 nmap <silent> <Localleader>sf :NeogotoSwitch<cr>
 nmap <silent> <Localleader>st :NeogotoTest<cr>
