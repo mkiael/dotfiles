@@ -28,6 +28,9 @@ Plug 'weirongxu/plantuml-previewer.vim'
 Plug 'aklt/plantuml-syntax'
 Plug 'iamcco/markdown-preview.nvim'
 Plug 'morhetz/gruvbox'
+Plug 'christoomey/vim-system-copy'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+Plug 'machakann/vim-highlightedyank'
 
 call plug#end()
 
@@ -130,6 +133,7 @@ vnoremap <Leader>sw y:%s/<C-r>"/
 " below pre-fills the current word for you to change.
 nnoremap <Leader>cw :%s/\<<C-r><C-w>\>/<C-r><C-w>
 vnoremap <Leader>cw y:%s/<C-r>"/<C-r>"
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
 nnoremap <silent>s* :let @/='\<'.expand('<cword>').'\>'<CR>cgn
 xnoremap <silent>s* "sy:let @/=@s<CR>cgn
