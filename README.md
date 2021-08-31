@@ -54,10 +54,12 @@ $ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 Install on Ubuntu:
 
+
 ```sh
-$ sudo add-apt-repository ppa:neovim-ppa/stable
-$ sudo apt-get update
-$ sudo apt-get install neovim
+$ wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+$ cp nvim.appimage ~/.local/bin
+$ echo "alias nvim=nvim.appimage" >> ~/.bashrc
+$ echo "alias vim=nvim" >> ~/.bashrc
 ```
 
 Install vim-plug:
@@ -72,6 +74,27 @@ Create init.vim:
 ```sh
 $ mkdir -p .config/nvim; echo "source $HOME/dotfiles/nvim/init.vim" > .config/nvim/init.vim;
 ```
+### Update clangd
+
+```sh
+$ wget https://apt.llvm.org/llvm.sh
+$ chmod +x llvm.sh
+$ sudo ./llvm.sh <version number>
+$ sudo apt install clangd-<version number>
+$ sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-<version number> <version number>
+```
+
+### Install ripgrep
+
+TBD
+
+### Install alacritty
+
+TBD
+
+### Install bat
+
+TBD
 
 ### Git
 
@@ -79,12 +102,4 @@ Link config:
 
 ```sh
 $ ln -s ~/dotfiles/git/gitconfig .gitconfig
-```
-
-### EditorConfig
-
-Install editorconfig MacOs:
-
-```sh
-$ brew install editorconfig
 ```
