@@ -174,12 +174,14 @@ let g:EasyMotion_do_mapping = 0 " Disable default mappings
 nmap <space>f <Plug>(easymotion-overwin-f2)
 
 " Turn on case insensitive feature
-let g:EasyMotion_smartcase = 1
+let g:EasyMotion_smartcase = 0
 
-" JK motions: Line motions
+map <space>l <Plug>(easymotion-lineforward)
 map <space>j <Plug>(easymotion-j)
 map <space>k <Plug>(easymotion-k)
-map <space>w <Plug>(easymotion-w)
+map <space>h <Plug>(easymotion-linebackward)
+nmap <space>w <Plug>(easymotion-overwin-w)
+nmap s <Plug>(easymotion-overwin-f2)
 
 let g:EasyMotion_keys = 'asdfghjkl,qwertyuiopzxcvbnmj'
 
