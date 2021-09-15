@@ -31,10 +31,13 @@ Plug 'morhetz/gruvbox'
 Plug 'christoomey/vim-system-copy'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'machakann/vim-highlightedyank'
+Plug 'beauwilliams/focus.nvim'
 
 call plug#end()
 
 colorscheme gruvbox
+
+lua require("focus").setup()
 
 set nowrap                     " don't wrap lines
 set linebreak                  " break on words
@@ -103,6 +106,24 @@ autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 "******************************************************************************
 " Mappings
 "******************************************************************************
+" Disable Arrow keys in Normal mode
+map <up> <nop>
+map <down> <nop>
+map <left> <nop>
+map <right> <nop>
+
+" Disable Arrow keys in Insert mode
+imap <up> <nop>
+imap <down> <nop>
+imap <left> <nop>
+imap <right> <nop>
+
+"So I can move around in insert
+inoremap <C-k> <C-o>gk
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
+inoremap <C-j> <C-o>gj
+
 " Exit insert mode with jj
 imap jj <Esc>
 
@@ -169,12 +190,10 @@ let g:airline#extensions#tabline#enabled=1   " Smarter tab line
 "******************************************************************************
 " EasyMotion
 "******************************************************************************
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
-
-nmap <space>f <Plug>(easymotion-overwin-f2)
+let g:EasyMotion_do_mapping = 1 " Disable default mappings
 
 " Turn on case insensitive feature
-let g:EasyMotion_smartcase = 0
+let g:EasyMotion_smartcase = 1
 
 map <space>l <Plug>(easymotion-lineforward)
 map <space>j <Plug>(easymotion-j)
