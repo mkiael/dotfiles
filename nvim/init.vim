@@ -6,10 +6,10 @@ let dotfilesdir = fnamemodify(vimrepodir, ':h')
 "******************************************************************************
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'bling/vim-airline'
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
 Plug 'easymotion/vim-easymotion'
 Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeFind'] }
-Plug 'preservim/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-rooter'
@@ -19,8 +19,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'SirVer/ultisnips'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'rhysd/vim-clang-format'
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
 Plug 'johnor/neogoto'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'tyru/open-browser.vim'
@@ -32,12 +30,56 @@ Plug 'christoomey/vim-system-copy'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'machakann/vim-highlightedyank'
 Plug 'beauwilliams/focus.nvim'
+Plug 'tpope/vim-commentary'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 
 call plug#end()
 
 colorscheme gruvbox
 
-lua require("focus").setup()
+lua << END
+require'lualine'.setup {
+  options = {
+    icons_enabled = true,
+    theme = 'gruvbox',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {},
+    always_divide_middle = true,
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', {'diagnostics', sources={'nvim_lsp'}}},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {
+    lualine_a = {'buffers'},
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {'tabs'}
+  },
+  extensions = {}
+}
+END
+
+" lua require("focus").setup()
 
 set nowrap                     " don't wrap lines
 set linebreak                  " break on words
@@ -56,6 +98,7 @@ set formatoptions-=cro         " turn off continuation of comments to next line
 set scrolloff=5                " always show x lines below/above the cursor
 set showbreak=↪                " show symbol before wrapped lines when wrap is on
 set colorcolumn=80             " Show vertical line at 80
+set signcolumn=number
 
 " Vim can highlight whitespaces for you in a convenient way:
 set list
@@ -99,31 +142,13 @@ set incsearch     " show search matches as you type
 " Info
 set showmode
 
-set completeopt=menuone,noinsert,noselect " Show completion menu if only one match, force user to select
+set completeopt=menu,menuone,noselect
 
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 
 "******************************************************************************
 " Mappings
 "******************************************************************************
-" Disable Arrow keys in Normal mode
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
-
-" Disable Arrow keys in Insert mode
-imap <up> <nop>
-imap <down> <nop>
-imap <left> <nop>
-imap <right> <nop>
-
-"So I can move around in insert
-inoremap <C-k> <C-o>gk
-inoremap <C-h> <Left>
-inoremap <C-l> <Right>
-inoremap <C-j> <C-o>gj
-
 " Exit insert mode with jj
 imap jj <Esc>
 
@@ -321,7 +346,7 @@ let g:NERDSpaceDelims = 1
 "******************************************************************************
 " Neogoto
 "******************************************************************************
-nmap <silent> <Localleader>sf :NeogotoSwitch<cr>
+nmap <silent> <M-o> :NeogotoSwitch<cr>
 nmap <silent> <Localleader>st :NeogotoTest<cr>
 nmap <silent> <Localleader>sl :NeogotoSwitchRight<cr>
 nmap <silent> <Localleader>sh :NeogotoSwitchLeft<cr>
@@ -329,7 +354,68 @@ nmap <silent> <Localleader>sh :NeogotoSwitchLeft<cr>
 "******************************************************************************
 " lsp
 "******************************************************************************
-call luaeval('require("jlsp_config")')
+lua <<EOF
+-- Setup nvim-cmp.
+local cmp = require'cmp'
+
+cmp.setup({
+   snippet = {
+   expand = function(args)
+      vim.fn["UltiSnips#Anon"](args.body)
+   end,
+   },
+   mapping = {
+      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.close(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
+      ['<S-Tab>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 's' })
+   },
+   sources = {
+      { name = 'nvim_lsp' },
+      { name = 'ultisnips' },
+      { name = 'buffer' },
+   }
+})
+
+-- Setup lspconfig.
+local lsp = require'lspconfig'
+if vim.fn.executable('clangd') > 0 then
+   lsp.clangd.setup {
+      capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+      cmd = {
+         "clangd",
+         "--background-index=true",
+         "--clang-tidy=true",
+         "--completion-style=detailed",
+         "--all-scopes-completion=true"
+      },
+   }
+end
+
+if vim.fn.executable('rls') > 0 then
+   lsp.rls.setup{
+      settings = {
+         rust = {
+            unstable_features = true,
+            build_on_save = false,
+            all_features = true,
+         }
+      }
+   }
+   lsp.rust_analyzer.setup{
+      on_attach=on_attach
+   }
+end
+
+-- Use signs with 0 width
+vim.fn.sign_define("LspDiagnosticsSignError", {text = "", numhl = "LspDiagnosticsDefaultError"})
+vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", numhl = "LspDiagnosticsDefaultWarning"})
+vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "LspDiagnosticsDefaultInformation"})
+vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", numhl = "LspDiagnosticsDefaultHint"})
+EOF
 
 command! LspRestart :lua vim.lsp.stop_client(vim.lsp.get_active_clients())
 command! LspLog execute ':edit ' . v:lua.vim.lsp.get_log_path()
@@ -353,10 +439,6 @@ nnoremap <localleader>ft <cmd>lua vim.lsp.buf.type_definition()<CR>
 nnoremap <localleader>g0 <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <localleader>gW <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
-" Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
 " Avoid showing message extra message when using completion
 set shortmess+=c
 
@@ -364,8 +446,6 @@ set shortmess+=c
 let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 let g:completion_matching_ignore_case = 1
-
-inoremap <silent><expr> <c-space> completion#trigger_completion()
 
 "******************************************************************************
 " tree-sitter
