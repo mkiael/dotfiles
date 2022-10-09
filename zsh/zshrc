@@ -28,7 +28,6 @@ zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-history-substring-search", defer:3, on:"zsh-users/zsh-syntax-highlighting", defer: 3
 
 # Commands
-zplug "BurntSushi/ripgrep", as:command, from:gh-r, rename-to:"rg", use:"*unknown-linux-musl*"
 zplug "aureliojargas/sedsed", as:command, use:"sedsed.py", rename-to:"sedsed"
 
 # Themes
