@@ -30,8 +30,6 @@ zplug "zsh-users/zsh-history-substring-search", defer:3, on:"zsh-users/zsh-synta
 # Commands
 zplug "aureliojargas/sedsed", as:command, use:"sedsed.py", rename-to:"sedsed"
 
-# Themes
-
 # Local plugins
 zplug "${THIS_DIR}", from:local, use:"prompt.zsh"
 zplug "${THIS_DIR}", from:local, use:"history.zsh"
@@ -57,6 +55,8 @@ zplug load
 # Enable bash style completions
 autoload -U +X bashcompinit && bashcompinit -u
 
+[ -f ~/.zsh.local ] && source ~/.zsh.local ]
+
 # Setup fzf
 # ---------
 if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
@@ -80,6 +80,8 @@ alias rm='rm -i'
 alias la='ls -la'
 alias ll='ls -l'
 alias t='tee /dev/tty'
+alias cat='bat'
+alias vim='nvim'
 
 alias -g L="| less" # Write L after a command to page through the output.
 alias -g TL='| tail -20'
