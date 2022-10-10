@@ -67,6 +67,9 @@ fi
 # ---------------
 [[ $- == *i* ]] && source "$HOME/.fzf/shell/completion.zsh" 2> /dev/null
 
+autoload -Uz compinit
+compinit -u
+
 # Key bindings
 # ------------
 source "$HOME/.fzf/shell/key-bindings.zsh"
@@ -191,7 +194,7 @@ export FZF_DEFAULT_OPTS='
 --bind=ctrl-z:toggle-all
 --bind=ctrl-a:select-all,ctrl-d:deselect-all
 '
-export FZF_DEFAULT_COMMAND='ag --hidden --skip-vcs-ignores --ignore .git --ignore .hg -l -g ""'
+export FZF_DEFAULT_COMMAND='rg --hidden --skip-vcs-ignores --ignore .git --ignore .hg -l -g ""'
 
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND -u"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden --bind '?:toggle-preview'"
