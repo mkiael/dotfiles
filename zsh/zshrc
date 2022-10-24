@@ -30,6 +30,8 @@ zplug "zsh-users/zsh-history-substring-search", defer:3, on:"zsh-users/zsh-synta
 # Commands
 zplug "aureliojargas/sedsed", as:command, use:"sedsed.py", rename-to:"sedsed"
 
+zplug "akarzim/zsh-docker-aliases"
+
 # Local plugins
 zplug "${THIS_DIR}", from:local, use:"prompt.zsh"
 zplug "${THIS_DIR}", from:local, use:"history.zsh"
@@ -73,6 +75,41 @@ compinit -u
 # Key bindings
 # ------------
 source "$HOME/.fzf/shell/key-bindings.zsh"
+
+
+# Functions
+function pya {
+    if grep -sq "poetry" "pyproject.toml"; then
+        designated_venv="$(dirname `poetry run which python`)"
+        export POETRY_ACTIVE=1
+    elif [ -f "Pipfile" ]; then
+        designated_venv="$(dirname `pipenv run which python`)"
+    elif [ -d "venv" ] && [ -z "${VIRTUAL_ENV}" ]; then
+        designated_venv="${PWD}/venv/bin"
+    elif [ -d ".venv" ] && [ -z "${VIRTUAL_ENV}" ]; then
+        designated_venv="${PWD}/.venv/bin"
+    fi
+
+
+
+   if [ ! -z "${designated_venv}" ]; then
+        echo "Activated: ${designated_venv}"
+        source ${designated_venv}/activate
+    elif [ -z "${VIRTUAL_ENV}" ]; then
+       echo "No python env found"
+    else
+       echo "No python env found, VIRTUAL_ENV already set"
+    fi
+}
+
+function lua-lsp-install {
+    if [ -d "$HOME/.lsp/lualsp/" ]; then
+       echo "~/.lsp/lualsp exists already, remove first"
+    else
+      mkdir -p ~/.lsp/lualsp
+      wget https://github.com/sumneko/lua-language-server/releases/download/3.5.6/lua-language-server-3.5.6-linux-x64.tar.gz -O - | tar -xz -C ~/.lsp/lualsp
+    fi
+}
 
 # ---------------------------------------------------------------------
 # Alias
